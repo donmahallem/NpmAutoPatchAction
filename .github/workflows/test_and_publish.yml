@@ -15,12 +15,16 @@ jobs:
       - name: Install Deps
         run: npm ci
       - name: Run Build
-        run: npm run build
+        run: npm run build:ncc
+      - uses: actions/upload-artifact@v1
+        with:
+          name: build-artifact
+          path: ./dist
       - name: Run Test
         run: npm run test:coverage
       - uses: actions/upload-artifact@v1
         with:
-          name: coverage-data
+          name: coverage-artifact
           path: ./coverage
       - name: Run Lint
         run: npm run lint
@@ -28,7 +32,7 @@ jobs:
         run: npm run docs
       - uses: actions/upload-artifact@v1
         with:
-          name: docs
+          name: docs-artifact
           path: ./docs
       - name: Coveralls Coverage Upload
         uses: coverallsapp/github-action@master
