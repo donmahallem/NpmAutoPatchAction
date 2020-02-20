@@ -1,0 +1,98 @@
+name: Test and Publish
+on: [push,pull_request]
+
+jobs:
+  test_suite:
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install Deps
+        run: npm ci
+      - name: Run Build
+        run: npm run build:ncc
+      - name: Run Test
+        run: npm run test:coverage
+      - name: Run Lint
+        run: npm run lint
+      - name: Run Docs
+        run: npm run docs
+      - name: Coveralls Coverage Upload
+        uses: coverallsapp/github-action@master
+        if: success()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./coverage/lcov.info
+      - name: Save Build Artifact
+        uses: actions/upload-artifact@v1
+        if: success() && github.event_name == 'push'
+        with:
+          name: build-artifact
+          path: ./dist
+      - name: Save Coverage Artifact
+        uses: actions/upload-artifact@v1
+        if: success() && github.event_name == 'push'
+        with:
+          name: coverage-artifact
+          path: ./coverage
+      - name: Save Docs Artifact
+        uses: actions/upload-artifact@v1
+        if: success() && github.event_name == 'push'
+        with:
+          name: docs-artifact
+          path: ./docs
+  publish_suite:
+    runs-on: ubuntu-latest
+    name: Publish To Beta
+    needs: test_suite
+    if: github.event_name == 'push' && ( github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: build-artifact
+          path: ./dist
+      - name: Copy Action Files
+        run: |
+          cp README.md ./dist/README.md
+          cp LICENSE ./dist/LICENSE
+          cp action.yml ./dist/action.yml
+      - name: Deploy BETA Version
+        if: github.ref == 'refs/heads/dev'
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: beta 
+          FOLDER: dist 
+      - name: Deploy RELEASE Version
+        if: github.ref == 'refs/heads/master'
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: release
+          FOLDER: dist
+      - name: Download Docs Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: docs-artifact
+          path: ./docs
+      - name: Deploy Docs
+        if: github.ref == 'refs/heads/master'
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs

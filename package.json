@@ -1,0 +1,111 @@
+{
+    "name": "@donmahallem/npm-auto-patch-action",
+    "version": "0.0.1",
+    "description": "Auto Patcher",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "private": false,
+    "keywords": [
+        "flow",
+        "polar",
+        "api",
+        "types"
+    ],
+    "scripts": {
+        "test": "mocha",
+        "start": "npm run build:live",
+        "build:live": "nodemon",
+        "build": "tsc",
+        "build:ncc": "ncc build ./src/index.ts",
+        "test:coverage": "nyc npm run test",
+        "lint": "tslint -c tslint.json -p tsconfig-lint.json src/**/*.ts",
+        "lint:fix": "tslint --fix -c tslint.json -p tsconfig-lint.json src/**/*.ts",
+        "docs": "typedoc --options typedoc.json"
+    },
+    "homepage": "https://donmahallem.github.io/NpmAutoPatchAction/",
+    "author": {
+        "name": "donmahallem",
+        "email": "donmahallem@users.noreply.github.com",
+        "url": "https://github.com/donmahallem"
+    },
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/donmahallem/NpmAutoPatchAction/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/donmahallem/NpmAutoPatchAction.git"
+    },
+    "engines": {
+        "node": ">=8.0.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "lib": [
+            "es2017",
+            "es7",
+            "es6",
+            "dom"
+        ],
+        "declaration": true,
+        "outDir": "./dist/",
+        "baseUrl": "./src/",
+        "strict": true,
+        "esModuleInterop": true
+    },
+    "devDependencies": {
+        "@types/chai": "~4.2.8",
+        "@types/mocha": "~7.0.1",
+        "@types/node": "~13.7.0",
+        "@types/sinon": "~7.5.1",
+        "@zeit/ncc": "~0.21.1",
+        "chai": "~4.2.0",
+        "mocha": "~7.0.1",
+        "nyc": "~15.0.0",
+        "sinon": "~8.1.1",
+        "ts-node": "~8.6.2",
+        "tslint": "~6.0.0",
+        "typedoc": "~0.16.9",
+        "typescript": "~3.7.5"
+    },
+    "nyc": {
+        "include": [
+            "src/*.ts",
+            "src/**/*.ts"
+        ],
+        "exclude": [
+            "typings",
+            "src/**/*.spec.ts",
+            "**/*.d.ts"
+        ],
+        "extension": [
+            ".ts"
+        ],
+        "require": [
+            "ts-node/register"
+        ],
+        "reporter": [
+            "json",
+            "html",
+            "text-summary",
+            "lcov"
+        ],
+        "sourceMap": true,
+        "instrument": true,
+        "all": true
+    },
+    "dependencies": {
+        "@actions/core": "~1.2.2",
+        "@actions/github": "~2.1.1",
+        "@octokit/rest": "~16.43.0",
+        "jsonschema": "~1.2.5"
+    },
+    "files": [
+        "dist/*",
+        "src/*"
+    ]
+}
