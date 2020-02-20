@@ -7,6 +7,6 @@ import * as github from "@actions/github";
 
 export class PatchClient {
     constructor(private secret: string) {
-        console.log(core.getInput("test"), github.context.actor);
+        core.info(core.getInput("test") + " - " + github.context.actor);
     }
 }

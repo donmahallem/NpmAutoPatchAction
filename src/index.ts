@@ -4,5 +4,4 @@
 
 import { PatchClient } from "./client";
 
-
 const cl: PatchClient = new PatchClient("test");
