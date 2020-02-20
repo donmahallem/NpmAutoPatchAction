@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Publish To Beta
     needs: test_suite
-    if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
+    if: github.event_name == 'push' && ( github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master')
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -70,9 +70,29 @@ jobs:
           cp README.md ./dist/README.md
           cp LICENSE ./dist/LICENSE
           cp action.yml ./dist/action.yml
-      - name: Deploy
+      - name: Deploy BETA Version
+        if: github.ref == 'refs/heads/dev'
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: beta # The branch the action should deploy to.
-          FOLDER: dist # The folder the action should deploy.
+          BRANCH: beta 
+          FOLDER: dist 
+      - name: Deploy RELEASE Version
+        if: github.ref == 'refs/heads/master'
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: release
+          FOLDER: dist
+      - name: Download Docs Artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: docs-artifact
+          path: ./docs
+      - name: Deploy Docs
+        if: github.ref == 'refs/heads/master'
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs
