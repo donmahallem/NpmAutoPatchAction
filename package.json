@@ -17,7 +17,6 @@
         "build:live": "nodemon",
         "build": "tsc",
         "build:ncc": "ncc build ./src/index.ts",
-        "build:doc": "node ./node_modules/typedoc/bin/typedoc --out ./tt2/ --mode modules --exclude /**/index ./src/",
         "test:coverage": "nyc npm run test",
         "lint": "tslint -c tslint.json -p tsconfig-lint.json src/**/*.ts",
         "lint:fix": "tslint --fix -c tslint.json -p tsconfig-lint.json src/**/*.ts",
@@ -100,8 +99,9 @@
         "all": true
     },
     "dependencies": {
-        "@actions/core": "^1.2.2",
-        "@actions/github": "^2.1.0",
+        "@actions/core": "~1.2.2",
+        "@actions/github": "~2.1.1",
+        "@octokit/rest": "~16.43.0",
         "jsonschema": "~1.2.5"
     },
     "files": [

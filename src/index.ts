@@ -2,7 +2,7 @@
  * Source https://github.com/donmahallem/NpmAutoPatchAction
  */
 
-import * as core from "@actions/core";
-import * as github from "@actions/github";
+import { PatchClient } from "./client";
 
-core.warning("yeees");
+
+const cl: PatchClient = new PatchClient("test");
