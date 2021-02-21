@@ -9,7 +9,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: '12.x'
       - name: Install Deps
@@ -29,19 +29,19 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./coverage/lcov.info
       - name: Save Build Artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         if: success() && github.event_name == 'push'
         with:
           name: build-artifact
           path: ./dist
       - name: Save Coverage Artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         if: success() && github.event_name == 'push'
         with:
           name: coverage-artifact
           path: ./coverage
       - name: Save Docs Artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         if: success() && github.event_name == 'push'
         with:
           name: docs-artifact
@@ -57,11 +57,11 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: '12.x'
       - name: Download Build Artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v2
         with:
           name: build-artifact
           path: ./dist
@@ -85,7 +85,7 @@ jobs:
           BRANCH: release
           FOLDER: dist
       - name: Download Docs Artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v2
         with:
           name: docs-artifact
           path: ./docs
