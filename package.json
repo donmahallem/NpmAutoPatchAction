@@ -99,7 +99,7 @@
         "all": true
     },
     "dependencies": {
-        "@actions/core": "~1.2.2",
+        "@actions/core": "~1.2.6",
         "@actions/github": "~2.2.0",
         "@octokit/rest": "~18.0.0",
         "jsonschema": "~1.4.0"
