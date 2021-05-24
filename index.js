@@ -4702,29 +4702,18 @@ module.exports = require("url");
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
 
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
+
+    if (enumerableOnly) {
+      symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+    }
+
     keys.push.apply(keys, symbols);
   }
 
@@ -4751,9 +4740,25 @@ function _objectSpread2(target) {
   return target;
 }
 
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
 const Endpoints = {
   actions: {
     addSelectedRepoToOrgSecret: ["PUT /orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}"],
+    approveWorkflowRun: ["POST /repos/{owner}/{repo}/actions/runs/{run_id}/approve"],
     cancelWorkflowRun: ["POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel"],
     createOrUpdateEnvironmentSecret: ["PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}"],
     createOrUpdateOrgSecret: ["PUT /orgs/{org}/actions/secrets/{secret_name}"],
@@ -4867,6 +4872,11 @@ const Endpoints = {
         previews: ["corsair"]
       }
     }],
+    createContentAttachmentForRepo: ["POST /repos/{owner}/{repo}/content_references/{content_reference_id}/attachments", {
+      mediaType: {
+        previews: ["corsair"]
+      }
+    }],
     createFromManifest: ["POST /app-manifests/{code}/conversions"],
     createInstallationAccessToken: ["POST /app/installations/{installation_id}/access_tokens"],
     deleteAuthorization: ["DELETE /applications/{client_id}/grant"],
@@ -4929,8 +4939,11 @@ const Endpoints = {
     }],
     getAnalysis: ["GET /repos/{owner}/{repo}/code-scanning/analyses/{analysis_id}"],
     getSarif: ["GET /repos/{owner}/{repo}/code-scanning/sarifs/{sarif_id}"],
+    listAlertInstances: ["GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances"],
     listAlertsForRepo: ["GET /repos/{owner}/{repo}/code-scanning/alerts"],
-    listAlertsInstances: ["GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances"],
+    listAlertsInstances: ["GET /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances", {}, {
+      renamed: ["codeScanning", "listAlertInstances"]
+    }],
     listRecentAnalyses: ["GET /repos/{owner}/{repo}/code-scanning/analyses"],
     updateAlert: ["PATCH /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}"],
     uploadSarif: ["POST /repos/{owner}/{repo}/code-scanning/sarifs"]
@@ -5412,6 +5425,11 @@ const Endpoints = {
         previews: ["squirrel-girl"]
       }
     }],
+    createForRelease: ["POST /repos/{owner}/{repo}/releases/{release_id}/reactions", {
+      mediaType: {
+        previews: ["squirrel-girl"]
+      }
+    }],
     createForTeamDiscussionCommentInOrg: ["POST /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions", {
       mediaType: {
         previews: ["squirrel-girl"]
@@ -5512,6 +5530,7 @@ const Endpoints = {
       }
     }],
     compareCommits: ["GET /repos/{owner}/{repo}/compare/{base}...{head}"],
+    compareCommitsWithBasehead: ["GET /repos/{owner}/{repo}/compare/{basehead}"],
     createCommitComment: ["POST /repos/{owner}/{repo}/commits/{commit_sha}/comments"],
     createCommitSignatureProtection: ["POST /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures", {
       mediaType: {
@@ -5835,7 +5854,7 @@ const Endpoints = {
   }
 };
 
-const VERSION = "5.1.1";
+const VERSION = "5.3.0";
 
 function endpointsToMethods(octokit, endpointsMap) {
   const newMethods = {};
@@ -5977,7 +5996,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var request = __webpack_require__(753);
 var universalUserAgent = __webpack_require__(796);
 
-const VERSION = "4.6.1";
+const VERSION = "4.6.2";
 
 class GraphqlError extends Error {
   constructor(request, response) {
