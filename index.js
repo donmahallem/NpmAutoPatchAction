@@ -705,7 +705,7 @@ function register(state, name, method, options) {
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const VERSION = "2.15.0";
+const VERSION = "2.15.1";
 
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
@@ -4556,7 +4556,7 @@ var isPlainObject = __webpack_require__(356);
 var nodeFetch = _interopDefault(__webpack_require__(454));
 var requestError = __webpack_require__(463);
 
-const VERSION = "5.6.0";
+const VERSION = "5.6.1";
 
 function getBufferResponse(response) {
   return response.arrayBuffer();
@@ -5994,7 +5994,7 @@ const Endpoints = {
   }
 };
 
-const VERSION = "5.7.0";
+const VERSION = "5.8.0";
 
 function endpointsToMethods(octokit, endpointsMap) {
   const newMethods = {};
