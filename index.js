@@ -724,7 +724,7 @@ function register(state, name, method, options) {
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const VERSION = "2.16.0";
+const VERSION = "2.16.1";
 
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
@@ -6033,7 +6033,7 @@ const Endpoints = {
   }
 };
 
-const VERSION = "5.10.0";
+const VERSION = "5.10.2";
 
 function endpointsToMethods(octokit, endpointsMap) {
   const newMethods = {};
