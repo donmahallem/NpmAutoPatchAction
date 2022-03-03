@@ -29,19 +29,19 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./coverage/lcov.info
       - name: Save Build Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: success() && github.event_name == 'push'
         with:
           name: build-artifact
           path: ./dist
       - name: Save Coverage Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: success() && github.event_name == 'push'
         with:
           name: coverage-artifact
           path: ./coverage
       - name: Save Docs Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: success() && github.event_name == 'push'
         with:
           name: docs-artifact
