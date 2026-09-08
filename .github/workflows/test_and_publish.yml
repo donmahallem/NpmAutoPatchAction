@@ -11,7 +11,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '12.x'
+          node-version: '16.x'
       - name: Install Deps
         run: npm ci
       - name: Run Build
@@ -59,7 +59,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '12.x'
+          node-version: '16.x'
       - name: Download Build Artifact
         uses: actions/download-artifact@v3
         with:
