@@ -102,7 +102,7 @@
         "@actions/core": "~1.9.1",
         "@actions/github": "~5.0.3",
         "@octokit/rest": "~19.0.4",
-        "jsonschema": "~1.4.1"
+        "jsonschema": "~1.5.0"
     },
     "files": [
         "dist/*",
